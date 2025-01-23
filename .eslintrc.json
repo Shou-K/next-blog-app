@@ -1,5 +1,6 @@
 {
-  "extends": ["next/core-web-vitals", "plugin:tailwindcss/recommended"],
+  "extends": ["next/core-web-vitals"],
+  // "extends": ["next/core-web-vitals", "plugin:tailwindcss/recommended"],
   "settings": {
     "tailwindcss": {
       "callees": ["cn", "twMerge", "tv"]
