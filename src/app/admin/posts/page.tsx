@@ -31,7 +31,9 @@ const PostsPage = () => {
       const data = await response.json();
       setPosts(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "不明なエラーが発生しました");
+      setError(
+        err instanceof Error ? err.message : "不明なエラーが発生しました"
+      );
     } finally {
       setLoading(false);
     }
@@ -75,7 +77,9 @@ const PostsPage = () => {
           {posts.map((post) => (
             <tr key={post.id}>
               <td className="border border-gray-400 px-8 py-2">{post.title}</td>
-              <td className="border border-gray-400 px-4 py-2">{post.content}</td>
+              <td className="border border-gray-400 px-4 py-2">
+                {post.content}
+              </td>
               <td className="border border-gray-400 px-4 py-2">
                 {dayjs(post.createdAt).format("YYYY-MM-DD")}
               </td>
@@ -83,7 +87,8 @@ const PostsPage = () => {
                 {post.categories.map((category) => (
                   <span
                     key={category.id}
-                    className="inline-block bg-gray-200 text-gray-800 text-xs font-medium mr-2 px-6 py-1 rounded">
+                    className="inline-block bg-gray-200 text-gray-800 text-xs font-medium mr-2 px-6 py-1 rounded"
+                  >
                     {category.name}
                   </span>
                 ))}
@@ -106,9 +111,9 @@ const PostsPage = () => {
         </tbody>
       </table>
       <Link className="py-2" href="/admin/posts/new">
-          <button className="bg-green-500 text-white px-4 py-4 rounded mr-2 font-bold hover:bg-green-400">
-              新規の投稿作成
-          </button>
+        <button className="bg-green-500 text-white px-4 py-4 rounded mr-2 font-bold hover:bg-green-400">
+          新規の投稿作成
+        </button>
       </Link>
     </div>
   );
