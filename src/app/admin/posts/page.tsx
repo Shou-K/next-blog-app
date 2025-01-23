@@ -106,7 +106,7 @@ const PostsPage = () => {
         </tbody>
       </table>
       <Link className="py-2" href="/admin/posts/new">
-          <button className="bg-green-500 hover:bg-green-400 text-white px-4 py-4 rounded mr-2 font-bold">
+          <button className="bg-green-500 text-white px-4 py-4 rounded mr-2 font-bold hover:bg-green-400">
               新規の投稿作成
           </button>
       </Link>
