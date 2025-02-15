@@ -65,4 +65,4 @@ const dummyPosts: Post[] = [
   },
 ];
 
-export default dummyPosts;
+export default dummyPosts; //ここで外部にデータを送る。ほかのところでもimportで使用できる。
