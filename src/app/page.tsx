@@ -2,48 +2,67 @@
 import { useState, useEffect } from "react";
 import type { Post } from "@/app/_types/Post";
 import PostSummary from "@/app/_components/PostSummary";
-import dummyPosts from "@/app/_mocks/dummyPosts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const Page: React.FC = () => {
-  // 投稿データを「状態」として管理 (初期値はnull)
+  // 投稿データの状態管理
   const [posts, setPosts] = useState<Post[] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // コンポーネントが読み込まれたときに「1回だけ」実行する処理
+  // 投稿データを取得
   useEffect(() => {
-    // 本来はウェブAPIを叩いてデータを取得するが、まずはモックデータを使用
-    // (ネットからのデータ取得をシミュレートして１秒後にデータをセットする)
-    const timer = setTimeout(() => {
-      console.log("ウェブAPIからデータを取得しました (虚言)");
-      setPosts(dummyPosts);
-    }, 1000); // 1000ミリ秒 = 1秒
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch("/api/posts");
+        if (!response.ok) throw new Error("投稿データの取得に失敗しました");
+        const data = await response.json();
+        setPosts(data);
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "不明なエラーが発生しました"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    // データ取得の途中でページ遷移したときにタイマーを解除する処理
-    return () => clearTimeout(timer);
+    fetchPosts();
   }, []);
 
-  // 投稿データが取得できるまでは「Loading...」を表示
-  if (!posts) {
+  // ローディング中
+  if (loading) {
     return (
-      <div className="text-gray-500">
-        <FontAwesomeIcon icon={faSpinner} className="mr-1 animate-spin" />
+      <div className="text-gray-500 flex items-center justify-center h-screen">
+        <FontAwesomeIcon icon={faSpinner} className="mr-2 animate-spin" />
         Loading...
       </div>
     );
   }
 
-  // 投稿データが取得できたら「投稿記事の一覧」を出力
-  //ここで背景を変えられないか試したけどダメだった
-  return (//投稿記事一覧がページ全体に広がって失敗
-    <main>
-      <div className="mb-2 text-2xl font-bold">Main</div>
+  // エラーが発生した場合
+  if (error) {
+    return <div className="text-red-500 text-center">エラー: {error}</div>;
+  }
+
+  // 投稿データが空の場合
+  if (!posts || posts.length === 0) {
+    return (
+      <div className="text-gray-500 text-center">投稿記事がありません</div>
+    );
+  }
+
+  // 投稿記事の表示
+  return (
+    <main className="max-w-2xl mx-auto p-4">
+      <div className="mb-4 text-2xl font-bold">最新の投稿</div>
       <div className="space-y-3">
         {posts.map((post) => (
-          <PostSummary key={post.id} post={post} />//変更必須
+          <PostSummary key={post.id} post={post} />
         ))}
       </div>
-      </main>
+    </main>
   );
 };
 
