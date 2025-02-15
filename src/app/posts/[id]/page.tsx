@@ -1,53 +1,63 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation"; // ◀ 注目
-
+import { useParams } from "next/navigation";
 import type { Post } from "@/app/_types/Post";
-import dummyPosts from "@/app/_mocks/dummyPosts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
-
 import DOMPurify from "isomorphic-dompurify";
 
 // 投稿記事の詳細表示 /posts/[id]
 const Page: React.FC = () => {
   const [post, setPost] = useState<Post | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // 動的ルートパラメータから 記事id を取得 （URL:/posts/[id]）
+  // URLパラメータから id を取得
   const { id } = useParams() as { id: string };
-  console.log("取得した id:", id);
 
-  // コンポーネントが読み込まれたときに「1回だけ」実行する処理
+  // 投稿データを取得
   useEffect(() => {
-    // 本来はウェブAPIを叩いてデータを取得するが、まずはモックデータを使用
-    // (ネットからのデータ取得をシミュレートして１秒後にデータをセットする)
-    setIsLoading(true);
-    const timer = setTimeout(() => {
-      console.log("ウェブAPIからデータを取得しました (虚言)");
-      // dummyPosts から id に一致する投稿を取得してセット
-      setPost(dummyPosts.find((post) => post.id === id) || null);
-      setIsLoading(false);
-    }, 1000);
+    const fetchPost = async () => {
+      try {
+        const response = await fetch(`/api/posts/${id}`);
+        if (!response.ok) throw new Error("投稿データの取得に失敗しました");
+        const data = await response.json();
+        setPost(data);
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "不明なエラーが発生しました"
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    // データ取得の途中でページ遷移したときにタイマーを解除する処理
-    return () => clearTimeout(timer);
+    fetchPost();
   }, [id]);
 
-  // 投稿データの取得中は「Loading...」を表示
+  // ローディング中
   if (isLoading) {
     return (
-      <div className="text-gray-500">
-        <FontAwesomeIcon icon={faSpinner} className="mr-1 animate-spin" />
+      <div className="text-gray-500 flex items-center justify-center h-screen">
+        <FontAwesomeIcon icon={faSpinner} className="mr-2 animate-spin" />
         Loading...
       </div>
     );
   }
 
-  // 投稿データが取得できなかったらエラーメッセージを表示
+  // エラー表示
+  if (error) {
+    return <div className="text-red-500 text-center">エラー: {error}</div>;
+  }
+
+  // 投稿が見つからなかった場合
   if (!post) {
-    return <div>指定idの投稿の取得に失敗しました。</div>;
+    return (
+      <div className="text-gray-500 text-center">
+        指定idの投稿が見つかりません
+      </div>
+    );
   }
 
   // HTMLコンテンツのサニタイズ
@@ -56,19 +66,19 @@ const Page: React.FC = () => {
   });
 
   return (
-    <main>
+    <main className="max-w-2xl mx-auto p-4">
       <div className="space-y-2">
-        <div className="mb-2 text-2xl font-bold">{post.title}</div>
-        <div>
+        <h1 className="mb-2 text-2xl font-bold">{post.title}</h1>
+        {post.coverImage && (
           <Image
             src={post.coverImage.url}
-            alt="Example Image"
+            alt="Cover Image"
             width={post.coverImage.width}
             height={post.coverImage.height}
             priority
             className="rounded-xl"
           />
-        </div>
+        )}
         <div dangerouslySetInnerHTML={{ __html: safeHTML }} />
       </div>
     </main>
