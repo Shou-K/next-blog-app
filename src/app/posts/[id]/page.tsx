@@ -23,6 +23,7 @@ const Page: React.FC = () => {
         const response = await fetch(`/api/posts/${id}`);
         if (!response.ok) throw new Error("投稿データの取得に失敗しました");
         const data = await response.json();
+        console.log("取得した投稿データ:", JSON.stringify(data, null, 2)); // ◀ JSON 形式で確認
         setPost(data);
       } catch (err) {
         setError(

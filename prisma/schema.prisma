@@ -22,7 +22,9 @@ model Post {
   id             String @id @default(uuid())
   title          String
   content        String
-  coverImageURL  String
+  coverImageURL  String?
+  duration       String?  // 所要時間
+  rating         String?  // 評価
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   categories     PostCategory[]
