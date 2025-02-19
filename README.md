@@ -5,10 +5,11 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 こんにちは
 最近、小説集めにはまっているShou-Kです。
 
-**「読んだ小説の評価、感想投稿アプリ」**を開発しました。
+**読んだ小説の評価、感想投稿アプリ**
+を開発しました。
 アプリ開発にはnext.js、投稿記事のテーブル管理にsupabase、公開にgithubおよびvercelを使用しています。
 
-##　機能
+## 機能
 
 **ヘッダー**
 
