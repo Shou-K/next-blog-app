@@ -71,15 +71,15 @@ export const POST = async (req: NextRequest) => {
 };
 
 export const GET = async (req: NextRequest) => {
-  //テーブルから記事を取得している。
   try {
     const posts = await prisma.post.findMany({
-      // ◀ 推論を利用して posts の型を決定
       select: {
         id: true,
         title: true,
         content: true,
         createdAt: true,
+        duration: true, // ◀ 追加
+        rating: true, // ◀ 追加
         categories: {
           select: {
             category: {
@@ -91,11 +91,10 @@ export const GET = async (req: NextRequest) => {
           },
         },
       },
-      orderBy: {
-        createdAt: "desc",
-      },
+      orderBy: { createdAt: "desc" },
     });
-    return NextResponse.json(posts); //ここでidやtitleなどの塊(posts)を送っている。
+
+    return NextResponse.json(posts);
   } catch (error) {
     console.error(error);
     return NextResponse.json(

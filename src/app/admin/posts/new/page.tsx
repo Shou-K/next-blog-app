@@ -30,6 +30,8 @@ const Page: React.FC = () => {
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
   const [newCoverImageURL, setNewCoverImageURL] = useState("");
+  const [newRating, setNewRating] = useState(""); // 評価 (単一選択)
+  const [newDuration, setNewDuration] = useState(""); // 所要時間 (文字列)
 
   const router = useRouter();
   const { token } = useAuth();
@@ -252,6 +254,43 @@ const Page: React.FC = () => {
           onChange={updateNewCoverImage}
           accept="image/*"
         />
+
+        <div className="space-y-1">
+          <label htmlFor="duration" className="block font-bold">
+            所要時間
+          </label>
+          <input
+            type="text"
+            id="duration"
+            name="duration"
+            className="w-full rounded-md border-2 px-2 py-1"
+            value={newDuration}
+            onChange={(e) => setNewDuration(e.target.value)}
+            placeholder="所要時間を入力してください (例: 30分)"
+            required
+          />
+        </div>
+
+        <div className="space-y-1">
+          <label htmlFor="rating" className="block font-bold">
+            評価
+          </label>
+          <select
+            id="rating"
+            name="rating"
+            className="w-full rounded-md border-2 px-2 py-1"
+            value={newRating}
+            onChange={(e) => setNewRating(e.target.value)}
+            required
+          >
+            <option value="">評価を選択してください</option>
+            <option value="1">★☆☆☆☆</option>
+            <option value="2">★★☆☆☆</option>
+            <option value="3">★★★☆☆</option>
+            <option value="4">★★★★☆</option>
+            <option value="5">★★★★★</option>
+          </select>
+        </div>
 
         <div className="space-y-1">
           <div className="font-bold">タグ</div>

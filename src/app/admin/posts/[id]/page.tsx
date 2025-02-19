@@ -12,6 +12,8 @@ type Post = {
   id: string;
   title: string;
   categories: string[]; // 選択されたカテゴリID
+  duration?: string; // 所要時間（オプショナル）
+  rating?: string; // 評価（オプショナル）
 };
 
 const EditPostPage = ({ params }: { params: { id: string } }) => {
@@ -22,6 +24,8 @@ const EditPostPage = ({ params }: { params: { id: string } }) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [title, setTitle] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [duration, setDuration] = useState(""); // 所要時間
+  const [rating, setRating] = useState(""); // 評価
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,8 +38,12 @@ const EditPostPage = ({ params }: { params: { id: string } }) => {
       setPost(data);
       setTitle(data.title);
       setSelectedCategories(data.categories);
+      setDuration(data.duration || ""); // 所要時間をセット（null なら空文字）
+      setRating(data.rating || ""); // 評価をセット（null なら空文字）
     } catch (err) {
-      setError(err instanceof Error ? err.message : "不明なエラーが発生しました");
+      setError(
+        err instanceof Error ? err.message : "不明なエラーが発生しました"
+      );
     }
   };
 
@@ -47,7 +55,9 @@ const EditPostPage = ({ params }: { params: { id: string } }) => {
       const data = await response.json();
       setCategories(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "不明なエラーが発生しました");
+      setError(
+        err instanceof Error ? err.message : "不明なエラーが発生しました"
+      );
     }
   };
 
@@ -67,6 +77,8 @@ const EditPostPage = ({ params }: { params: { id: string } }) => {
         body: JSON.stringify({
           title,
           categoryIds: selectedCategories,
+          duration: duration || null, // 空文字なら null を送信
+          rating: rating || null, // 空文字なら null を送信
         }),
       });
       if (!response.ok) throw new Error("投稿記事の更新に失敗しました");
@@ -91,6 +103,7 @@ const EditPostPage = ({ params }: { params: { id: string } }) => {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">投稿記事の編集</h1>
 
+      {/* タイトル */}
       <div className="mb-4">
         <label className="block mb-1 font-bold" htmlFor="title">
           タイトル
@@ -104,6 +117,41 @@ const EditPostPage = ({ params }: { params: { id: string } }) => {
         />
       </div>
 
+      {/* 所要時間 */}
+      <div className="mb-4">
+        <label className="block mb-1 font-bold" htmlFor="duration">
+          所要時間（例: 10分）
+        </label>
+        <input
+          id="duration"
+          type="text"
+          value={duration}
+          onChange={(e) => setDuration(e.target.value)}
+          className="border border-gray-400 p-2 w-full"
+        />
+      </div>
+
+      {/* 評価 */}
+      <div className="mb-4">
+        <label className="block mb-1 font-bold" htmlFor="rating">
+          評価
+        </label>
+        <select
+          id="rating"
+          value={rating}
+          onChange={(e) => setRating(e.target.value)}
+          className="border border-gray-400 p-2 w-full"
+        >
+          <option value="">評価を選択</option>
+          <option value="★☆☆☆☆">☆1</option>
+          <option value="★★☆☆☆">☆2</option>
+          <option value="★★★☆☆">☆3</option>
+          <option value="★★★★☆">☆4</option>
+          <option value="★★★★★">☆5</option>
+        </select>
+      </div>
+
+      {/* カテゴリ */}
       <div className="mb-4">
         <label className="block mb-1 font-bold">カテゴリ</label>
         <div>
@@ -128,6 +176,7 @@ const EditPostPage = ({ params }: { params: { id: string } }) => {
         </div>
       </div>
 
+      {/* ボタン */}
       <div className="flex space-x-4">
         <button
           className="bg-blue-500 hover:bg-blue-400 text-white px-4 py-2 rounded"

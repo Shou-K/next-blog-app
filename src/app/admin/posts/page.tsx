@@ -1,4 +1,3 @@
-//管理者操作の投稿記事一覧表示はここ
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -15,6 +14,8 @@ type Post = {
   content: string;
   createdAt: string;
   categories: Category[];
+  duration?: string; // 所要時間
+  rating?: string; // 評価
 };
 
 const PostsPage = () => {
@@ -70,6 +71,8 @@ const PostsPage = () => {
             <th className="border border-gray-400 px-4 py-2">記事内容</th>
             <th className="border border-gray-400 px-4 py-2">作成日</th>
             <th className="border border-gray-400 px-4 py-2">カテゴリ</th>
+            <th className="border border-gray-400 px-4 py-2">所要時間</th>
+            <th className="border border-gray-400 px-4 py-2">評価</th>
             <th className="border border-gray-400 px-4 py-2">アクション</th>
           </tr>
         </thead>
@@ -92,6 +95,14 @@ const PostsPage = () => {
                     {category.name}
                   </span>
                 ))}
+              </td>
+              {/* 所要時間を表示 */}
+              <td className="border border-gray-400 px-4 py-2">
+                {post.duration || "未設定"}
+              </td>
+              {/* 評価を表示 */}
+              <td className="border border-gray-400 px-4 py-2">
+                {post.rating || "未設定"}
               </td>
               <td className="border border-gray-400 px-4 py-2">
                 <Link href={`posts/${post.id}`}>

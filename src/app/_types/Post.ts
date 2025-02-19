@@ -6,6 +6,8 @@ export type Post = {
   title: string;
   content: string;
   createdAt: string;
+  duration: string; // ◀ 所要時間（省略可能）
+  rating: string; // ◀ 評価（省略可能）
   categories: Category[];
   coverImage: CoverImage;
 };
