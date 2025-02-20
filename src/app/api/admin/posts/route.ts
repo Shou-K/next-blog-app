@@ -24,6 +24,7 @@ export const POST = async (req: NextRequest) => {
 
   try {
     const requestBody: RequestBody = await req.json();
+    console.log("Request Body:", requestBody); // ◀ 追加
 
     // 分割代入
     const { title, content, coverImageURL, categoryIds, duration, rating } =
