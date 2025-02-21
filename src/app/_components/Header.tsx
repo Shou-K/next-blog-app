@@ -30,7 +30,7 @@ const Header: React.FC = () => {
           <div>
             <Link href="/">
               <FontAwesomeIcon icon={faFish} className="mr-1" />
-              MyBlogApp
+              Reading Record
             </Link>
           </div>
           <div className="flex gap-x-6">
@@ -47,7 +47,7 @@ const Header: React.FC = () => {
           </div>
         </div>
       </div>
-      </header>
+    </header>
   );
 };
 
