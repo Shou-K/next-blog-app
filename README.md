@@ -42,10 +42,6 @@ VSCodeターミナルなどで実行できます。
 npm run dev
 ```
 
-## vercel URL
-
-- https://next-blog-app-shouk.vercel.app/
-
 ## 今後の展望
 
 - UIを本棚のようにして表示したい
@@ -56,4 +52,8 @@ npm run dev
 - 2/19日　読書時間と評価を表示に成功
 - ホーム画面にて登録した時間と評価が正しく記載されないバグが発生中
 - テーブルでは数値がnullになっているため正しく値の登録が行えていない模様
-  **現在修正中です**
+- **現在修正中です**
+
+## vercel URL
+
+- https://next-blog-app-shouk.vercel.app/
