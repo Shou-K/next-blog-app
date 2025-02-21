@@ -10,6 +10,8 @@ export const GET = async (req: NextRequest) => {
         title: true,
         content: true,
         createdAt: true,
+        duration: true,
+        rating: true,
         categories: {
           select: {
             category: {

@@ -50,9 +50,17 @@ const PostSummary: React.FC<Props> = ({ post }) => {
 
       {/* 評価と所要時間の追加 */}
       <div className="mt-2 flex justify-between text-sm text-gray-600">
-        <div>所要時間: {post.duration || "未設定"}</div>
         <div>
-          評価: {post.rating ? renderStars(Number(post.rating)) : "未評価"}
+          所要時間:
+          {post.duration !== null && post.duration !== undefined
+            ? `${post.duration}時間`
+            : "未設定"}
+        </div>
+        <div>
+          評価:
+          {post.rating !== null && post.rating !== undefined
+            ? renderStars(Number(post.rating))
+            : "未評価"}
         </div>
       </div>
     </div>

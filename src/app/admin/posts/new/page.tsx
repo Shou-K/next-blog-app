@@ -221,7 +221,7 @@ const Page: React.FC = () => {
 
         <div className="space-y-1">
           <label htmlFor="content" className="block font-bold">
-            本文
+            レビュー本文
           </label>
           <textarea
             id="content"
@@ -259,7 +259,7 @@ const Page: React.FC = () => {
 
         <div className="space-y-1">
           <label htmlFor="duration" className="block font-bold">
-            所要時間
+            読書時間
           </label>
           <input
             type="text"
@@ -268,7 +268,7 @@ const Page: React.FC = () => {
             className="w-full rounded-md border-2 px-2 py-1"
             value={newDuration}
             onChange={(e) => setNewDuration(e.target.value)}
-            placeholder="所要時間を入力してください (例: 30分)"
+            placeholder="読書時間を入力してください (例: 8[単位は時間です])"
             required
           />
         </div>

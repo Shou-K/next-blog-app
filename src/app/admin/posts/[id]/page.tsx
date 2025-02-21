@@ -35,6 +35,9 @@ const EditPostPage = ({ params }: { params: { id: string } }) => {
       const response = await fetch(`/api/posts/${postId}`);
       if (!response.ok) throw new Error("投稿記事の取得に失敗しました");
       const data = await response.json();
+
+      console.log("取得したデータ:", data); // 取得データを確認
+
       setPost(data);
       setTitle(data.title);
       setSelectedCategories(data.categories);
