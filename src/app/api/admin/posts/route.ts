@@ -11,8 +11,8 @@ type RequestBody = {
   content: string;
   coverImageURL: string;
   categoryIds: string[];
-  duration?: string; // ◀ 所要時間（省略可能）
-  rating?: string; // ◀ 評価（省略可能）
+  duration: string; // ◀ 所要時間（省略可能）
+  rating: string; // ◀ 評価（省略可能）
 };
 
 export const POST = async (req: NextRequest) => {

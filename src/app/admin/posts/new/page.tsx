@@ -137,6 +137,8 @@ const Page: React.FC = () => {
         categoryIds: checkableCategories
           ? checkableCategories.filter((c) => c.isSelect).map((c) => c.id)
           : [],
+        duration: newDuration, // 所要時間の追加
+        rating: newRating, // 評価の追加
       };
       const requestUrl = "/api/admin/posts";
       console.log(`${requestUrl} => ${JSON.stringify(requestBody, null, 2)}`);
