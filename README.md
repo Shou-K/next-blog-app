@@ -16,7 +16,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 | Reading Record |　ホーム画面へ |
 
-- 管理者操作 →　管理者操作画面へ(Login状態の場合)
+- 管理者操作 : 管理者操作画面へ(Login状態の場合)
 - Login(or Logout)→　ログイン画面へ(投下時ログアウト)
 - ユーザー →　ユーザー情報へ
 
