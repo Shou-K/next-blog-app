@@ -7,7 +7,6 @@ type RouteParams = {
   };
 };
 
-
 export const GET = async (req: NextRequest, routeParams: RouteParams) => {
   try {
     // パラメータプレースホルダから id を取得
@@ -23,6 +22,8 @@ export const GET = async (req: NextRequest, routeParams: RouteParams) => {
         content: true,
         coverImageURL: true,
         createdAt: true,
+        duration: true,
+        rating: true,
         updatedAt: true,
         categories: {
           select: {

@@ -66,10 +66,25 @@ const Page: React.FC = () => {
     ALLOWED_TAGS: ["b", "strong", "i", "em", "u", "br"],
   });
 
+  // 評価を星で表示
+  const renderStars = (rating: number) => {
+    return "★".repeat(rating) + "☆".repeat(5 - rating);
+  };
+
   return (
     <main className="max-w-2xl mx-auto p-4">
       <div className="space-y-2">
-        <h1 className="mb-2 text-2xl font-bold">{post.title}</h1>
+        {/* タイトル＋評価＋所要時間 */}
+        <div className="flex items-center space-x-4">
+          <h1 className="text-2xl font-bold">{post.title}</h1>
+          <span className="text-yellow-500 text-lg">
+            {post.rating ? renderStars(Number(post.rating)) : "未評価"}
+          </span>
+          <span className="text-gray-600 text-sm">
+            {post.duration ? `${post.duration}時間` : "未設定"}
+          </span>
+        </div>
+
         {post.coverImage && (
           <Image
             src={post.coverImage.url}

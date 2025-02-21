@@ -11,9 +11,6 @@ type Props = {
 
 const PostSummary: React.FC<Props> = ({ post }) => {
   const dtFmt = "YYYY-MM-DD";
-  const safeHTML = DOMPurify.sanitize(post.content, {
-    ALLOWED_TAGS: ["b", "strong", "i", "em", "u", "br"],
-  });
 
   // 評価を星で表示
   const renderStars = (rating: number) => {
@@ -40,12 +37,11 @@ const PostSummary: React.FC<Props> = ({ post }) => {
         </div>
       </div>
 
+      {/* タイトルのみ表示 */}
       <Link href={`/posts/${post.id}`}>
-        <div className="mb-1 text-lg font-bold">{post.title}</div>
-        <div
-          className="line-clamp-3"
-          dangerouslySetInnerHTML={{ __html: safeHTML }}
-        />
+        <div className="mb-1 text-lg font-bold hover:underline">
+          {post.title}
+        </div>
       </Link>
 
       {/* 評価と所要時間の追加 */}
@@ -56,7 +52,7 @@ const PostSummary: React.FC<Props> = ({ post }) => {
             ? `${post.duration}時間`
             : "未設定"}
         </div>
-        <div>
+        <div className="text-yellow-500 text-lg">
           評価:
           {post.rating !== null && post.rating !== undefined
             ? renderStars(Number(post.rating))
