@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## はじめに
 
-- こんにちは。小説集めにはまっているShou-Kです。
+- こんにちは、小説集めにはまっているShou-Kです。
 - 今回は、「読んだ小説投稿アプリ」を作成しました。
 
 ## プロジェクト概要
